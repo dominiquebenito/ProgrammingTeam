@@ -1,1 +1,1 @@
-# ProgrammingTeam
+This repository holds all of my solutions for the homework that was assigned from the programming team. Also, some of the solutions are from the problem sets given to us on the Saturday mock contest practices.
