@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.*;
 import java.io.*;
 
@@ -8,31 +9,34 @@ public class vacation {
 	public static Points[] blocked;
 	
 	public static void main (String[] args) throws IOException{
-		Scanner in = new Scanner (System.in);
+		Scanner in = new Scanner (new File("vacation.in"));
 		int parks = in.nextInt();
 		
 		for (int i = 0; i < parks; i++ ) {
 			int rides = in.nextInt();
 			int blocks = in.nextInt();
 			
-			locations = new Points[rides];
+			locations = new Points[rides+1];
 			blocked = new Points[blocks];
 			
-			for (int j = 0; j < rides; j++)
+			locations[0] = new Points(0,0,1);
+			
+			for (int j = 1; j < rides+1; j++)
 				locations[j] = new Points(in.nextInt(), in.nextInt(), 1);
 			
 			for (int j = 0; j < blocks; j++)
 				blocked[j] = new Points(in.nextInt(), in.nextInt(), 0);
 			
-			perm(0, new int[rides], new boolean[rides]);
-			
-			System.out.println("Vacation #" + (i+1));
+			perm(0, new int[rides+1], new boolean[rides+1]);
+			DecimalFormat df = new DecimalFormat(".000");
+				
+			System.out.println("Vacation #" + (i+1) + ":");
 			
 			if (total_time != Double.MAX_VALUE)
-				System.out.println("Jimmy can finish all of the rides in " + total_time + " seconds.");
+				System.out.println("Jimmy can finish all of the rides in " +  df.format(total_time) + " seconds.\n");
 			
 			else 
-				System.out.println("Jimmy should plan this vacation a different day.");
+				System.out.println("Jimmy should plan this vacation a different day.\n");
 			
 			total_time = Double.MAX_VALUE;
 		}
@@ -88,8 +92,9 @@ public class vacation {
 					Math.pow(locations[spots[i]].y - locations[spots[i-1]].y, 2)) + RIDE_TIME;
 		}
 		
-		if (temp < total_time) 
+		if (temp < total_time) {
 			total_time = temp;
+		}
 	}
 	
 	static class Points {
@@ -102,8 +107,8 @@ public class vacation {
 				y = two;
 			}
 			else {
-				ride1 = one - 1;
-				ride2 = two - 1;
+				ride1 = one;
+				ride2 = two;
 			}
 		}
 	}
